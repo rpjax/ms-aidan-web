@@ -27,7 +27,7 @@ public class JwtIdentityService : IIdentityService
     public JwtToken CreateToken(JwtIdentity identity)
     {
         var claims = new List<Claim>
-            {
+        {
                 new Claim(ClaimTypes.NameIdentifier, identity.Identifier ?? string.Empty)
             };
         
