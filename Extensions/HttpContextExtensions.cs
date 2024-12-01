@@ -1,15 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using Aidan.Core;
 using Aidan.Core.Extensions;
-using Aidan.Web.Responses;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Aidan.Core.Errors;
+using Aidan.Web.ProblemDetails;
 
-namespace Aidan.Web;
+namespace Aidan.Web.Extensions;
 
 /// <summary>
 /// Provides extension methods for <see cref="HttpContext"/> to facilitate common tasks such as extracting authorization details, cookies, and query parameters.
@@ -183,7 +181,7 @@ public static class HttpContextExtensions
         return WriteProblemResponseAsync(
             context: context,
             statusCode: statusCode,
-            response: ProblemResponse.FromError(error),
+            response: new ProblemResponse(error),
             options: options);
     }
 
@@ -196,7 +194,7 @@ public static class HttpContextExtensions
         return WriteProblemResponseAsync(
             context: context,
             statusCode: statusCode,
-            response: ProblemResponse.FromErrors(errors),
+            response: new ProblemResponse(errors),
             options: options);
     }
 
@@ -209,7 +207,7 @@ public static class HttpContextExtensions
         return WriteProblemResponseAsync(
             context: context,
             statusCode: statusCode,
-            response: ProblemResponse.FromException(exception),
+            response: new ProblemResponse(exception),
             options: options);
     }
 
@@ -222,7 +220,7 @@ public static class HttpContextExtensions
         return WriteProblemResponseAsync(
             context: context,
             statusCode: statusCode,
-            response: ProblemResponse.FromError(new Error(title: message)),
+            response: new ProblemResponse(new Error(title: message)),
             options: options);
     }
 }

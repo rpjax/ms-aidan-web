@@ -1,8 +1,7 @@
-﻿using Aidan.Core;
+﻿using System.Text.Json.Serialization;
 using Aidan.Core.Errors;
-using System.Text.Json.Serialization;
 
-namespace Aidan.Web.Responses;
+namespace Aidan.Web.ProblemDetails;
 
 /// <summary>
 /// Represents an error response based on RFC 7807 - Problem Details for HTTP APIs.
@@ -67,13 +66,11 @@ public class ProblemResponse
     /// </summary>
     /// <param name="error">The error.</param>
     /// <returns>An <see cref="ProblemResponse"/> object.</returns>
-    public static ProblemResponse FromError(Error error)
+    public ProblemResponse(Error error)
     {
-        return new ProblemResponse(
-            title: error.Title,
-            detail: error.Description,
-            errors: new Error[] { error }
-        );
+        Title = error.Title;
+        Detail = error.Description;
+        Errors = new Error[] { error };
     }
 
     /// <summary>
@@ -81,17 +78,15 @@ public class ProblemResponse
     /// </summary>
     /// <param name="errors">The errors.</param>
     /// <returns>An <see cref="ProblemResponse"/> object.</returns>
-    public static ProblemResponse FromErrors(IEnumerable<Error> errors)
+    public ProblemResponse(IEnumerable<Error> errors)
     {
         var errorsArray = errors.ToArray();
         var title = errorsArray.Length > 0 ? errorsArray[0].Title : null;
         var detail = errorsArray.Length > 0 ? errorsArray[0].Description : null;
 
-        return new ProblemResponse(
-            title: title,
-            detail: detail,
-            errors: errors
-        );
+        Title = title;
+        Detail = detail;
+        Errors = errorsArray;
     }
 
     /// <summary>
@@ -99,8 +94,12 @@ public class ProblemResponse
     /// </summary>
     /// <param name="exception">The exception.</param>
     /// <returns>An <see cref="ProblemResponse"/> object.</returns>
-    public static ProblemResponse FromException(Exception exception)
+    public ProblemResponse(Exception exception)
     {
-        return FromError(Error.FromException(exception));
+        var error = Error.FromException(exception);
+
+        Title = error.Title;
+        Detail = error.Description;
+        Errors = new Error[] { error };
     }
 }

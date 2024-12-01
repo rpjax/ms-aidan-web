@@ -1,4 +1,4 @@
-﻿namespace Aidan.Web.Attributes;
+﻿namespace Aidan.Web.AccessManagement.Attributes;
 
 /// <summary>
 /// Indicates that an action is explicitly forbidden regardless of any permissions or identity action checks. <br/>

@@ -299,30 +299,6 @@ public class AccessPolicy : IAccessPolicy
     }
 }
 
-/// <summary>
-/// Represents an identity within the access control system, encapsulating  a collection of permissions.
-/// </summary>
-public class Identity : IIdentity
-{
-    private IIdentityPermission[] Permissions { get; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Identity"/> class with the specified name and permissions.
-    /// </summary>
-    /// <param name="permissions">The permissions associated with this identity.</param>
-    public Identity(IEnumerable<IIdentityPermission> permissions)
-    {
-        Permissions = permissions.ToArray();
-    }
-
-    /// <summary>
-    /// Retrieves the collection of permissions associated with this identity.
-    /// </summary>
-    /// <returns>An enumerable collection of <see cref="IdentityPermission"/>.</returns>
-    public IEnumerable<IIdentityPermission> GetPermissions() => Permissions;
-
-}
-
 public class AccessPolicyBuilder : IBuilder<AccessPolicy>
 {   
     private List<IIdentityPermission> Permissions { get; } = new();
@@ -344,32 +320,4 @@ public class AccessPolicyBuilder : IBuilder<AccessPolicy>
         return this;
     }
 
-}
-
-public class IdentityBuilder : IBuilder<Identity>
-{
-    private List<IIdentityPermission> Permissions { get; } = new();
-
-    public Identity Build()
-    {
-        return new Identity(Permissions);
-    }
-
-    public IdentityBuilder AddPermission(IIdentityPermission permission)
-    {
-        Permissions.Add(permission);
-        return this;
-    }
-
-    public IdentityBuilder AddPermissions(IEnumerable<IIdentityPermission> permissions)
-    {
-        Permissions.AddRange(permissions);
-        return this;
-    }
-
-    public IdentityBuilder AddPermission(string permission)
-    {
-        Permissions.Add(new IdentityPermission(permission));
-        return this;
-    }
 }

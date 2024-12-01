@@ -15,5 +15,5 @@ public interface IIdentityService
     /// </summary>
     /// <param name="httpContext">The HTTP context.</param>
     /// <returns>The operation result containing the identity.</returns>
-    IOperationResult<IIdentity?> GetIdentity(HttpContext httpContext);
+    Task<IResult<IIdentity?>> GetIdentityAsync(HttpContext httpContext);
 }

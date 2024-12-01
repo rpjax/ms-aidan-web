@@ -1,29 +1,26 @@
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using Aidan.Core;
-using Aidan.Web.AccessManagement;
-using Aidan.Web.AccessManagement.Attributes;
-using Aidan.Web.AccessManagement.Extensions;
-using Aidan.Web.Attributes;
-using Aidan.Web.Responses;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json;
 using Aidan.Core.Errors;
+using Aidan.Web.AccessManagement.Extensions;
+using Aidan.Web.ProblemDetails;
+using Aidan.Web.Extensions;
 
 namespace Aidan.Web.Controllers;
 
 /// <summary>
 /// Represents a base web controller that provides utility methods and exception handling mechanisms.
 /// </summary>
-public abstract class WebController : ControllerBase
+public abstract class Controller : ControllerBase
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="WebController"/> class.
     /// </summary>
-    protected WebController()
+    protected Controller()
     {
 
     }
@@ -95,7 +92,7 @@ public abstract class WebController : ControllerBase
     /// </summary>
     /// <returns>An IIdentity object.</returns>
     /// <exception cref="AppException">Thrown when the identity object cannot be found in the HttpContext.Items dictionary.</exception>
-    protected virtual IIdentity? GetIdentity()
+    protected virtual AccessManagement.IIdentity? GetIdentity()
     {
         return HttpContext.GetIdentity();
     }
@@ -254,7 +251,7 @@ public abstract class WebController : ControllerBase
     {
         return ProblemResponse(
             statusCode: statusCode,
-            response: Responses.ProblemResponse.FromError(error),
+            response: new ProblemResponse(error),
             options: options);
     }
 
@@ -265,7 +262,7 @@ public abstract class WebController : ControllerBase
     {
         return ProblemResponse(
             statusCode: statusCode,
-            response: Responses.ProblemResponse.FromErrors(errors),
+            response: new ProblemResponse(errors),
             options: options);
     }
 
@@ -276,7 +273,7 @@ public abstract class WebController : ControllerBase
     {
         return ProblemResponse(
             statusCode: statusCode,
-            response: Responses.ProblemResponse.FromException(exception),
+            response: new ProblemResponse(exception),
             options: options);
     }
 
@@ -287,7 +284,7 @@ public abstract class WebController : ControllerBase
     {
         return ProblemResponse(
             statusCode: statusCode,
-            response: Responses.ProblemResponse.FromError(new Error(title: message)),
+            response: new ProblemResponse(new Error(title: message)),
             options: options);
     }
 

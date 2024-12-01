@@ -12,7 +12,7 @@ public static class HttpContextIdentityExtensions
     /// The key used for storing and retrieving the identity object from the <see cref="HttpContext.Items"/> dictionary.
     /// This constant ensures consistent access to the identity object across different components of the application.
     /// </summary>
-    public const string HttpContextItemsIdentityKey = "__msweb_identity_object";
+    public const string HttpContextItemsIdentityKey = "__Aidan_HttpContext_Identity";
 
     /// <summary>
     /// Sets the user's identity object in the current <see cref="HttpContext"/>, allowing for its retrieval throughout the request's lifecycle.

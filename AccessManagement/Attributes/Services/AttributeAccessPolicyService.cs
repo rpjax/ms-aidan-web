@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Aidan.Web.AccessManagement.Attributes;
 using Aidan.Web.AccessManagement.Services;
 
-namespace Aidan.Web.AccessManagement.Authorization;
+namespace Aidan.Web.AccessManagement.Attributes.Services;
 
 /// <summary>
 /// Represents a service for retrieving access policies based on attributes.
