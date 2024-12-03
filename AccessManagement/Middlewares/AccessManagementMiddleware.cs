@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Aidan.Core;
-using Aidan.Web.AccessManagement.Services;
+﻿using Aidan.Web.AccessManagement.Services;
 using Aidan.Core.Errors;
 using Aidan.Web.Extensions;
 
@@ -11,7 +9,7 @@ namespace Aidan.Web.AccessManagement.Middlewares;
 /// </summary>
 public class AccessManagementMiddleware : Middleware
 {
-    private IAccessManagementService AuthorizationService { get; }
+    private AccessManagementService AuthorizationService { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AccessManagementMiddleware"/> class.
@@ -20,7 +18,7 @@ public class AccessManagementMiddleware : Middleware
     /// <param name="service">The access management service used for authentication and authorization.</param>
     public AccessManagementMiddleware(
         RequestDelegate next,
-        IAccessManagementService authorizationService)
+        AccessManagementService authorizationService)
         : base(next)
     {
         AuthorizationService = authorizationService;
